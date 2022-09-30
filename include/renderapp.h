@@ -28,7 +28,8 @@ private:
     unsigned int shaderProgram;
     unsigned int vertexShader;
     unsigned int fragmentShader;
-    unsigned int texture;
+    unsigned int texture1;
+    unsigned int texture2;
 };
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);

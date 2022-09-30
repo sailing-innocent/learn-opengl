@@ -93,7 +93,11 @@ bool RenderApp::Run() {
     // set uniforms
     // SetUniforms();
     glUseProgram(shaderProgram); 
-    glBindTexture(GL_TEXTURE_2D, texture);
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, texture1);
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, texture2);
     glBindVertexArray(VAO);
     
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
@@ -110,8 +114,8 @@ bool RenderApp::Run() {
 }
 
 void RenderApp::LoadTexture() {
-    glGenTextures(1, &texture);
-    glBindTexture(GL_TEXTURE_2D, texture);
+    glGenTextures(1, &texture1);
+    glBindTexture(GL_TEXTURE_2D, texture1);
     // set texture wrap parameter
     // set the texture wrapping parameters
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
@@ -132,38 +136,25 @@ void RenderApp::LoadTexture() {
     {
         std::cout << "Failed to load texture" << std::endl;
     }
+    stbi_image_free(data);
+    glGenTextures(1, &texture2);
 
+    glBindTexture(GL_TEXTURE_2D, texture2);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    // set texture filtering parameters
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
+    data = stbi_load("F:/images/awesomeface.png", &width, &height, &nrChannels, 0);
+    if (data) {
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+    }
     stbi_image_free(data);
 }
 
 bool RenderApp::CreateGeometry() {
-    /*
-    float vertices[] = {
-        -0.5f, -0.5f, 0.0f,
-        0.5f, -0.5f, 0.0f,
-        0.0f, 0.5f, 0.0f,
-    };
-    */
-    /*
-    float vertices[] = {
-            0.5f, 0.5f, 0.0f, // top right
-            -0.5f, 0.5f, 0.0f, // top left
-            -0.5f, -0.5f, 0.0f, // bottom left
-            0.5f, -0.5f, 0.0f, // bottom right
-    };
-    unsigned int indices[] = {
-            0, 1, 2,
-            2, 3, 0,
-    };
-    */
-    /*
-    float vertices[] = {
-        0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
-        -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,
-        0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f,
-    };
-    */
     float vertices[] = {
     // positions          // colors           // texture coords
      0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
@@ -200,10 +191,15 @@ bool RenderApp::CreateGeometry() {
 }
 
 void RenderApp::SetUniforms() {
+    /*
     float timeValue = (float)glfwGetTime();
     float greenValue = (sin(timeValue)/2.0f) + 0.5f;
     int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
     glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
+    */
+    glUseProgram(shaderProgram);
+    glUniform1i(glGetUniformLocation(shaderProgram, "texture1"), 0);
+    glUniform1i(glGetUniformLocation(shaderProgram, "texture2"), 1);
 }
 
 bool RenderApp::Init() {
@@ -237,6 +233,10 @@ bool RenderApp::Init() {
 
     // geometry
     CreateGeometry();
+    LoadTexture();
+
+    // set uniforms
+    SetUniforms();
     
     return true;
 }
