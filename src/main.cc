@@ -8,6 +8,7 @@ int main()
     RenderApp renderApp;
 
     renderApp.Init();
+
     while (!renderApp.ShouldClose())
     {
         renderApp.Run();

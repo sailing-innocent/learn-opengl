@@ -1,2 +1,6 @@
-﻿  renderapp.cc
+﻿  Building Custom Rule G:/learnopengl/CMakeLists.txt
+  glad.c
+  main.cc
+  renderapp.cc
+  正在生成代码...
   main.vcxproj -> G:\learnopengl\build\Debug\main.exe

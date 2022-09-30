@@ -19,6 +19,7 @@ public:
     bool LinkProgram();
     bool CreateGeometry();
     void SetUniforms();
+    void LoadTexture();
 private:
     GLFWwindow* window = NULL;
     unsigned int VAO;
@@ -27,6 +28,7 @@ private:
     unsigned int shaderProgram;
     unsigned int vertexShader;
     unsigned int fragmentShader;
+    unsigned int texture;
 };
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
