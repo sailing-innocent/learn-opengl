@@ -125,7 +125,7 @@ void RenderApp::LoadTexture() {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
     int width, height, nrChannels;
-    unsigned char* data = stbi_load("F:/images/wall_512x512.jpg", &width, &height, &nrChannels, 0);
+    unsigned char* data = stbi_load("E:/data/assets/textures/wall_512x512.jpg", &width, &height, &nrChannels, 0);
     std::cout << "Generate Image " << width << "," << height << std::endl; 
     if (data)
     {
@@ -146,7 +146,7 @@ void RenderApp::LoadTexture() {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    data = stbi_load("F:/images/awesomeface.png", &width, &height, &nrChannels, 0);
+    data = stbi_load("E:/data/assets/textures/awesomeface_512x512.png", &width, &height, &nrChannels, 0);
     if (data) {
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
         glGenerateMipmap(GL_TEXTURE_2D);
@@ -221,11 +221,11 @@ bool RenderApp::Init() {
     // compile vertex shader
 
     // vertex shader
-    const char* vertexShaderSourcePath = "G:/learnopengl/shader/v.glsl";
+    const char* vertexShaderSourcePath = "E:/data/assets/shaders/v.glsl";
     CompileVertexShader(vertexShaderSourcePath);
 
     // fragment shader
-    const char* fragmentShaderSourcePath = "G:/learnopengl/shader/f.glsl";
+    const char* fragmentShaderSourcePath = "E:/data/assets/shaders/f.glsl";
     CompileFragmentShader(fragmentShaderSourcePath);
     // compile program
 
